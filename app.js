@@ -1,27 +1,27 @@
 document.addEventListener('DOMContentLoaded', function() {
-  var wordCount = 10;
-  var guessCount = 4;
-  var password = '';
+  let wordCount = 10;
+  let guessCount = 4;
+  let password = '';
 
-  var start = document.getElementById('start');
+  const start = document.getElementById('start');
   start.addEventListener('click', function() {
     toggleClasses(document.getElementById('start-screen'), 'hide', 'show');
     toggleClasses(document.getElementById('game-screen'), 'hide', 'show');
     startGame();
   });
 
-  function toggleClasses(element) {
-    for (var i = 1; i < arguments.length; i++) {
-      element.classList.toggle(arguments[i]);
-    }
+  function toggleClasses(element, ...args) {
+    args.forEach(arg => {
+      return element.classList.toggle(arg);
+    });
   }
 
   function startGame() {
     // get random words and append them to the DOM
-    var wordList = document.getElementById("word-list");
-    var randomWords = getRandomValues(words, wordCount);
-    randomWords.forEach(function(word) {
-      var li = document.createElement("li");
+    const wordList = document.getElementById("word-list");
+    const randomWords = getRandomValues(words, wordCount);
+    randomWords.forEach(word => {
+      const li = document.createElement("li");
       li.innerText = word;
       wordList.appendChild(li);
     });
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function setGuessCount(newCount) {
     guessCount = newCount;
-    document.getElementById("guesses-remaining").innerText = "Guesses remaining: " + guessCount + ".";
+    document.getElementById("guesses-remaining").innerText = `Guesses remaining: ${guessCount}.`
   }
 
   function updateGame(e) {
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var guess = e.target.innerText;
       var similarityScore = compareWords(guess, password);
       e.target.classList.add("disabled");
-      e.target.innerText = e.target.innerText + " --> Matching Letters: " + similarityScore;
+      e.target.innerText = `${e.target.innerText} --> Matching Letters: ${similarityScore}`;
       setGuessCount(guessCount - 1);
 
       // check whether the game is over
